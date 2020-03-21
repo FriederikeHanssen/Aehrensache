@@ -1,6 +1,6 @@
 from flask_restplus import Api
 from flask import Blueprint
-from .controller import farmer_controller, job_controller
+from main.controller import farmer_controller, job_controller
 
 blueprint = Blueprint('api', __name__)
 

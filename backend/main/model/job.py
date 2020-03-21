@@ -1,4 +1,5 @@
-from ..__init__ import db
+from main.database import db
+from main.model import farmer
 
 class Job(db.Model):
     __tablename__ = 'job'

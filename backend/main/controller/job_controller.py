@@ -1,9 +1,9 @@
 from flask import request, render_template, make_response
 from flask_restplus import Resource, Namespace
 from flask import current_app as app
-from ..model import job
-from ..__init__ import db
-from ..util.dto import job_dto
+from main.model import job
+from main.database import db
+from main.util.dto import job_dto
 
 
 ns = Namespace('job', description='Job')

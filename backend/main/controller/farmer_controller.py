@@ -1,13 +1,11 @@
 from flask import request
 from flask_restplus import Resource, Namespace
 
-from ..util.dto import farmer_dto
-from ..service.farmer_service import save_new_farmer, get_all_farmers, get_a_farmer
+from main.util.dto import farmer_dto
+from main.service.farmer_service import *
 
 ns = Namespace('farmer', description='Farmer')
 ns.add_model(farmer_dto.name, farmer_dto)
-
-
 
 @ns.route('/')
 class FarmerList(Resource):
@@ -15,7 +13,7 @@ class FarmerList(Resource):
     @ns.marshal_list_with(farmer_dto, envelope='data')
     def get(self):
         """List all registered users"""
-        return get_all_users()
+        return get_all_farmers()
 
     @ns.expect(farmer_dto, validate=True)
     @ns.response(201, 'Farmer successfully created.')
@@ -26,15 +24,30 @@ class FarmerList(Resource):
         return save_new_farmer(data=data)
 
 
-@ns.route('/<name>')
-@ns.param('name', 'The farmer name')
+@ns.route('/<int:id>')
+@ns.param('id', 'The farmer identifier')
 @ns.response(404, 'Farmer not found.')
-class Farmer(Resource):
+class FarmerID(Resource):
     @ns.doc('get a farmer')
-    # @api.marshal_with(_user)
-    def get(self, name):
+    @ns.marshal_with(farmer_dto, envelope='data')
+    def get(self, id):
+        """get a farmer given its id"""
+        farmer = get_farmer_by_id(id)
+        if not farmer:
+            ns.abort(404)
+        else:
+            return farmer
+
+
+@ns.route('/name')
+@ns.response(404, 'Farmer not found.')
+class FarmerName(Resource):
+    @ns.doc('get a farmer')
+    @ns.marshal_with(farmer_dto, envelope='data')
+    def get(self):
         """get a farmer given its name"""
-        farmer = get_a_farmer(name)
+        data = request.json
+        farmer = get_a_farmer(data["name"])
         if not farmer:
             ns.abort(404)
         else:

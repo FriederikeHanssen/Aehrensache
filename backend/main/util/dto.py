@@ -9,7 +9,8 @@ farmer_dto = Model('farmer', {
     })
 
 
-job_dto = Model('job_dto', {
+
+job_dto = Model('job', {
         'task': fields.String(required=True, description='The task'),
         'duration': fields.String(required=True, description='The duration'),
         'farmer_id': fields.String(required=True, description='The duration')

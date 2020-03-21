@@ -1,15 +1,15 @@
 import uuid
 import datetime
-
-from ..__init__ import db
+from main.model.farmer import Landwirt
+from main.database import db
 
 def save_new_farmer(data):
-    user = Landwirt.query.filter(Landwirt.name == name).first()
+    user = Landwirt.query.filter_by(name=data["name"]).first()
     if not user:
-        new_user = Landwirt(name=name,
-                        email=email,
-                        phone = phone,
-                        zipcode = zipcode
+        new_user = Landwirt(name=data["name"],
+                        email=data["email"],
+                        phone = data["phone"],
+                        zipcode = data["zipcode"]
                         )
         save_changes(new_user)
         response_object = {
@@ -26,11 +26,14 @@ def save_new_farmer(data):
 
 
 def get_all_farmers():
-    return User.query.all()
+    return Landwirt.query.all()
 
 
 def get_a_farmer(name):
-    return User.query.filter_by(name=name).first()
+    return Landwirt.query.filter_by(name=name).first()
+
+def get_farmer_by_id(id):
+    return Landwirt.query.get(id)
 
 
 def save_changes(data):

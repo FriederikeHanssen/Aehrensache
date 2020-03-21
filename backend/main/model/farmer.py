@@ -1,4 +1,4 @@
-from . import db
+from main.database import db
 
 class Landwirt(db.Model):
     __tablename__ = 'landwirt'
