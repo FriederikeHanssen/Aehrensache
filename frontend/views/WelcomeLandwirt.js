@@ -9,8 +9,7 @@ class WelcomeLandwirt extends React.Component {
     super(props);
 
     this.state = {
-      start_date: new Date(),
-      end_date: null,
+      date: null,
       name: null,
       plz: null
     };
@@ -28,8 +27,8 @@ class WelcomeLandwirt extends React.Component {
         mode="date"
         placeholder="select date"
         format="YYYY-MM-DD"
-        minDate="2016-05-01"
-        maxDate="2016-06-01"
+        minDate="2020-03-20"
+        maxDate="2021-06-01"
         confirmBtnText="Bestätigen"
         cancelBtnText="Abbrechen"
         customStyles={{
@@ -43,7 +42,7 @@ class WelcomeLandwirt extends React.Component {
             marginLeft: 36
           }
         }}
-        onDateChange={(date) => { this.setState({ end_date: date }); }}
+        onDateChange={(date) => { this.setState({ date }); }}
       />
       <Input
         onChangeText={(name) => this.setState({ name })}
@@ -53,7 +52,7 @@ class WelcomeLandwirt extends React.Component {
       <Input
         onChangeText={(plz) => this.setState({ plz })}
         value={this.state.plz}
-        placeholder="Plz"
+        placeholder="PLZ"
       />
       <Button onPress={() => this.onHandleSubmit()}>Einreichen</Button>
     </Layout>
