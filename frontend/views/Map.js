@@ -9,12 +9,14 @@ export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Initial region, Germany
       region: {
         latitude: 51.0598488,
         longitude: 10.3120124,
         latitudeDelta: 9.2922,
         longitudeDelta: 9.2421,
       },
+      // Hide intial position somewhere
       own_location_marker: {
         key: 0,
         latlng:
@@ -89,10 +91,12 @@ export default class Map extends React.Component {
         coordinate={{ latitude: marker.latlng[0], longitude: marker.latlng[1] }}
         title={marker.title}
         description={marker.description}
+        pinColor='#65734B'
       />
     ));
     return (
       <View style={{ flex: 1 }}>
+
         <MapView
           customMapStyle={mapStyle}
           provider={PROVIDER_GOOGLE}
@@ -100,6 +104,7 @@ export default class Map extends React.Component {
           onLongPress={(e) => { this.onPress(e) }}
           initialRegion={this.state.region}
           region={this.state.region}>
+
           <Marker
             key={this.state.own_location_marker.key}
             coordinate={{
@@ -108,7 +113,9 @@ export default class Map extends React.Component {
             }}
             title={this.state.own_location_marker.title}
             description={this.state.own_location_marker.description}
+            pinColor='#F1445B'
           />
+
           {markers || null}
 
         </MapView>

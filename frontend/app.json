@@ -15,7 +15,7 @@
     ],
     "splash": {
       "image": "./assets/splash.png",
-      "backgroundColor": "#c7705e"
+      "backgroundColor": "#65734B"
     }
   }
 }
