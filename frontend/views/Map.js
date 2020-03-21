@@ -105,6 +105,7 @@ export default class Map extends React.Component {
           onLongPress={(e) => { this.onPress(e) }}
           initialRegion={this.state.region}
           clustering={true}
+          clusterColor={"#94A453"}
         //region={this.state.region}
         >
 
