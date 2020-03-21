@@ -10,10 +10,10 @@ export default class Map extends React.Component {
     super(props);
     this.state = {
       region: {
-        latitude: 48.5216,
-        longitude: 9.0576,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 51.0598488,
+        longitude: 10.3120124,
+        latitudeDelta: 9.2922,
+        longitudeDelta: 9.2421,
       },
       own_location_marker: {
         key: 0,
@@ -25,7 +25,7 @@ export default class Map extends React.Component {
       },
       markers: []
     };
-    this._getLocationAsync();
+    //this._getLocationAsync();
   }
 
   _getLocationAsync = async () => {
@@ -38,16 +38,7 @@ export default class Map extends React.Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({
-      own_location_marker: {
-        key: 0,
-        latlng:
-          [location.coords.latitude,
-          location.coords.longitude],
-        title: "Dein Standort",
-        description: 'Hier stehst du :)'
-      }
-    });
+    this.setOwnLocation([location.coords.latitude, location.coords.longitude]);
   };
 
   clearData() {
@@ -63,6 +54,30 @@ export default class Map extends React.Component {
 
   onRegionChange(region) {
     this.setState({ region });
+  }
+
+  setOwnLocation(latlong) {
+    this.setState({
+      own_location_marker: {
+        key: 0,
+        latlng:
+          [latlong[0],
+          latlong[1]],
+        title: "Dein Standort",
+        description: 'Hier stehst du :)'
+      },
+      region: {
+        latitude: latlong[0],
+        longitude: latlong[1],
+        latitudeDelta: 0.2922,
+        longitudeDelta: 0.2421,
+      }
+    });
+  }
+
+  onPress(e) {
+    var event = e.nativeEvent;
+    this.setOwnLocation([event.coordinate.latitude, event.coordinate.longitude]);
   }
 
 
@@ -82,7 +97,9 @@ export default class Map extends React.Component {
           customMapStyle={mapStyle}
           provider={PROVIDER_GOOGLE}
           style={styles.map}
-          initialRegion={this.state.region}>
+          onLongPress={(e) => { this.onPress(e) }}
+          initialRegion={this.state.region}
+          region={this.state.region}>
           <Marker
             key={this.state.own_location_marker.key}
             coordinate={{
@@ -99,14 +116,19 @@ export default class Map extends React.Component {
           style={{
             position: 'absolute',
             top: '95%',
-            alignSelf: 'flex-start'
+            display: 'flex',
+            alignSelf: 'flex-start',
+            flexDirection: 'row',
           }}
         >
           <Button title="Find jobs" onPress={() => {
             this._getJobsAsync();
           }} />
+          <Button title="Locate myself" onPress={() => {
+            this._getLocationAsync();
+          }} />
         </View>
-      </View>
+      </View >
     );
 
   }
@@ -132,10 +154,6 @@ const styles = StyleSheet.create({
   }
 });
 /*
-
-
-
-
         {
           key: 1,
           latlng:
@@ -144,5 +162,4 @@ const styles = StyleSheet.create({
           title: "Tübingen",
           description: 'Warum bist du so hügelig'
         },
-
 */
