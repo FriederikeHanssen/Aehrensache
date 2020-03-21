@@ -1,5 +1,6 @@
 import React from 'react';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from "react-native-map-clustering";
 import { StyleSheet, View, Dimensions, Text, Button } from 'react-native';
 import mapStyle from "../constants/maps_styling";
 import * as Location from 'expo-location';
@@ -103,7 +104,9 @@ export default class Map extends React.Component {
           style={styles.map}
           onLongPress={(e) => { this.onPress(e) }}
           initialRegion={this.state.region}
-          region={this.state.region}>
+          clustering={true}
+        //region={this.state.region}
+        >
 
           <Marker
             key={this.state.own_location_marker.key}
@@ -135,6 +138,7 @@ export default class Map extends React.Component {
             this._getLocationAsync();
           }} />
         </View>
+
       </View >
     );
 
