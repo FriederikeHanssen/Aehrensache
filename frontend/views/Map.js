@@ -1,8 +1,8 @@
 import React from 'react';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from "react-native-map-clustering";
+import { StyleSheet, View, Dimensions, Text, Button } from 'react-native';
 import mapStyle from "../constants/maps_styling";
-import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
@@ -10,32 +10,25 @@ export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Initial region, Germany
       region: {
-        latitude: 48.5216,
-        longitude: 9.0576,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 51.0598488,
+        longitude: 10.3120124,
+        latitudeDelta: 9.2922,
+        longitudeDelta: 9.2421,
       },
+      // Hide intial position somewhere
       own_location_marker: {
         key: 0,
         latlng:
-          [48.518061,
+          [1000.518061,
             9.0526],
         title: "Dein Standort",
         description: 'Hier stehst du :)'
       },
-      markers: [
-        {
-          key: 1,
-          latlng:
-            [48.518061,
-              9.0526],
-          title: "Tübingen",
-          description: 'Warum bist du so hügelig'
-        },
-      ]
+      markers: []
     };
-    this._getLocationAsync();
+    //this._getLocationAsync();
   }
 
   _getLocationAsync = async () => {
@@ -48,51 +41,105 @@ export default class Map extends React.Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({
-      own_location_marker: {
-        key: 0,
-        latlng:
-          [location.coords.latitude,
-          location.coords.longitude],
-        title: "Dein Standort",
-        description: 'Hier stehst du :)'
-      }
-    });
+    this.setOwnLocation([location.coords.latitude, location.coords.longitude]);
   };
 
+  clearData() {
+    this.setState({ markers: [] });
+  }
+
+  _getJobsAsync = async () => {
+    //TODO replace with actual REST API endpoint
+    fetch(`http://www.mocky.io/v2/5e7630e32f00009057985ff3`)
+      .then(res => res.json())
+      .then(json => this.setState({ markers: json["jobs"] }));
+  }
 
   onRegionChange(region) {
     this.setState({ region });
   }
 
+  setOwnLocation(latlong) {
+    this.setState({
+      own_location_marker: {
+        key: 0,
+        latlng:
+          [latlong[0],
+          latlong[1]],
+        title: "Dein Standort",
+        description: 'Hier stehst du :)'
+      },
+      region: {
+        latitude: latlong[0],
+        longitude: latlong[1],
+        latitudeDelta: 0.2922,
+        longitudeDelta: 0.2421,
+      }
+    });
+  }
+
+  onPress(e) {
+    var event = e.nativeEvent;
+    this.setOwnLocation([event.coordinate.latitude, event.coordinate.longitude]);
+  }
+
 
   render() {
 
-
+    let markers = this.state.markers.map((marker) => (
+      <Marker
+        key={marker.jobid}
+        coordinate={{ latitude: marker.latlng[0], longitude: marker.latlng[1] }}
+        title={marker.title}
+        description={marker.description}
+        pinColor='#65734B'
+      />
+    ));
     return (
-      <MapView
-        customMapStyle={mapStyle}
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        initialRegion={this.state.region}>
-        <Marker
-          key={this.state.own_location_marker.key}
-          coordinate={{
-            latitude: this.state.own_location_marker.latlng[0],
-            longitude: this.state.own_location_marker.latlng[1]
-          }}
-          title={this.state.own_location_marker.title}
-          description={this.state.own_location_marker.description}
-        />
-        {this.state.markers.map((marker) => (
+      <View style={{ flex: 1 }}>
+
+        <MapView
+          customMapStyle={mapStyle}
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          onLongPress={(e) => { this.onPress(e) }}
+          initialRegion={this.state.region}
+          clustering={true}
+        //region={this.state.region}
+        >
+
           <Marker
-            key={marker.key}
-            coordinate={{ latitude: marker.latlng[0], longitude: marker.latlng[1] }}
-            title={marker.title}
-            description={marker.description}
+            key={this.state.own_location_marker.key}
+            coordinate={{
+              latitude: this.state.own_location_marker.latlng[0],
+              longitude: this.state.own_location_marker.latlng[1]
+            }}
+            title={this.state.own_location_marker.title}
+            description={this.state.own_location_marker.description}
+            pinColor='#F1445B'
           />
-        ))}
-      </MapView>
+
+          {markers || null}
+
+        </MapView>
+        <View
+          style={{
+            position: 'absolute',
+            top: '95%',
+            display: 'flex',
+            alignSelf: 'flex-start',
+            flexDirection: 'row',
+          }}
+        >
+          <Button title="Find jobs" onPress={() => {
+            this._getJobsAsync();
+          }} />
+          <Button title="Locate myself" onPress={() => {
+            this._getLocationAsync();
+          }} />
+        </View>
+
+      </View >
     );
 
   }
@@ -118,8 +165,12 @@ const styles = StyleSheet.create({
   }
 });
 /*
-
-
-
-
+        {
+          key: 1,
+          latlng:
+            [48.518061,
+              9.0526],
+          title: "Tübingen",
+          description: 'Warum bist du so hügelig'
+        },
 */
