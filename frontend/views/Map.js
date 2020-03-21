@@ -1,20 +1,11 @@
 import React from 'react';
-import { Marker, PROVIDER_GOOGLE } from MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import mapsStyle from '../maps_styling.json';
-
-const Map = () => (
-  <View>
-    <Text h1>Hier kommt die Map hin</Text>
-  </View>
-);
-
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, View, Dimensions } from 'react-native';
 
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
-    this.props.mapsStyle = mapsStyle;
-    this.setState({
+    this.state = {
       region: {
         latitude: 37.78825,
         longitude: -122.4324,
@@ -30,7 +21,7 @@ export default class Map extends React.Component {
           description: 'dude'
         }
       ]
-    });
+    };
   }
 
   onRegionChange(region) {
@@ -84,7 +75,3 @@ const styles = StyleSheet.create({
     bottom: 0,
   }
 });
-const mapStyle = [
-  { "elementType": "geometry", "stylers": [{ "color": "#f5f5f5" }] },
-  { "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] },
-];

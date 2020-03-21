@@ -7,5 +7,4 @@ const Scroller = () => (
   </View>
 );
 
-
 export default Scroller;
