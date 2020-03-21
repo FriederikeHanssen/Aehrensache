@@ -3,8 +3,8 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from './views/Welcome';
-import WelcomeLandwirt from './views/WelcomeLandwirt';
 import Map from './views/Map';
+import WelcomeLandwirt from './views/WelcomeLandwirt';
 
 const Stack = createStackNavigator();
 
