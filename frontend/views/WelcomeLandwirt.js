@@ -1,5 +1,8 @@
 import React from 'react';
-import { Layout, Input, Button, Datepicker } from '@ui-kitten/components';
+import {
+  Layout, Input, Button
+} from '@ui-kitten/components';
+import DatePicker from 'react-native-datepicker';
 
 class WelcomeLandwirt extends React.Component {
   constructor(props) {
@@ -19,9 +22,28 @@ class WelcomeLandwirt extends React.Component {
 
   render = () => (
     <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Datepicker
-        date={this.state.start_date}
-        onSelect={(date) => this.setState({ start_date: date })}
+      <DatePicker
+        style={{ width: 200 }}
+        date={this.state.date}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        minDate="2016-05-01"
+        maxDate="2016-06-01"
+        confirmBtnText="Bestätigen"
+        cancelBtnText="Abbrechen"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+        }}
+        onDateChange={(date) => { this.setState({ end_date: date }); }}
       />
       <Input
         onChangeText={(name) => this.setState({ name })}
