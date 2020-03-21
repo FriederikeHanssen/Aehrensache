@@ -1,8 +1,7 @@
 import React from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Button } from 'react-native';
 import mapStyle from "../constants/maps_styling";
-import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
@@ -19,21 +18,12 @@ export default class Map extends React.Component {
       own_location_marker: {
         key: 0,
         latlng:
-          [48.518061,
+          [1000.518061,
             9.0526],
         title: "Dein Standort",
         description: 'Hier stehst du :)'
       },
-      markers: [
-        {
-          key: 1,
-          latlng:
-            [48.518061,
-              9.0526],
-          title: "Tübingen",
-          description: 'Warum bist du so hügelig'
-        },
-      ]
+      markers: []
     };
     this._getLocationAsync();
   }
@@ -60,6 +50,16 @@ export default class Map extends React.Component {
     });
   };
 
+  clearData() {
+    this.setState({ markers: [] });
+  }
+
+  _getJobsAsync = async () => {
+    //TODO replace with actual REST API endpoint
+    fetch(`http://www.mocky.io/v2/5e7630e32f00009057985ff3`)
+      .then(res => res.json())
+      .then(json => this.setState({ markers: json["jobs"] }));
+  }
 
   onRegionChange(region) {
     this.setState({ region });
@@ -68,31 +68,45 @@ export default class Map extends React.Component {
 
   render() {
 
-
+    let markers = this.state.markers.map((marker) => (
+      <Marker
+        key={marker.jobid}
+        coordinate={{ latitude: marker.latlng[0], longitude: marker.latlng[1] }}
+        title={marker.title}
+        description={marker.description}
+      />
+    ));
     return (
-      <MapView
-        customMapStyle={mapStyle}
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        initialRegion={this.state.region}>
-        <Marker
-          key={this.state.own_location_marker.key}
-          coordinate={{
-            latitude: this.state.own_location_marker.latlng[0],
-            longitude: this.state.own_location_marker.latlng[1]
-          }}
-          title={this.state.own_location_marker.title}
-          description={this.state.own_location_marker.description}
-        />
-        {this.state.markers.map((marker) => (
+      <View style={{ flex: 1 }}>
+        <MapView
+          customMapStyle={mapStyle}
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          initialRegion={this.state.region}>
           <Marker
-            key={marker.key}
-            coordinate={{ latitude: marker.latlng[0], longitude: marker.latlng[1] }}
-            title={marker.title}
-            description={marker.description}
+            key={this.state.own_location_marker.key}
+            coordinate={{
+              latitude: this.state.own_location_marker.latlng[0],
+              longitude: this.state.own_location_marker.latlng[1]
+            }}
+            title={this.state.own_location_marker.title}
+            description={this.state.own_location_marker.description}
           />
-        ))}
-      </MapView>
+          {markers || null}
+
+        </MapView>
+        <View
+          style={{
+            position: 'absolute',
+            top: '95%',
+            alignSelf: 'flex-start'
+          }}
+        >
+          <Button title="Find jobs" onPress={() => {
+            this._getJobsAsync();
+          }} />
+        </View>
+      </View>
     );
 
   }
@@ -121,5 +135,14 @@ const styles = StyleSheet.create({
 
 
 
+
+        {
+          key: 1,
+          latlng:
+            [48.518061,
+              9.0526],
+          title: "Tübingen",
+          description: 'Warum bist du so hügelig'
+        },
 
 */
