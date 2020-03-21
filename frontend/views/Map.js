@@ -3,6 +3,11 @@ import { Marker, PROVIDER_GOOGLE } from MapView from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import mapsStyle from '../maps_styling.json';
 
+const Map = () => (
+  <View>
+    <Text h1>Hier kommt die Map hin</Text>
+  </View>
+);
 
 
 export default class Map extends React.Component {
