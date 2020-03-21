@@ -1,18 +1,21 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Layout, Button, Text } from '@ui-kitten/components';
 
 const WelcomeScreen = ({ navigation }) => (
-  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <Text h1>Wer bist du?</Text>
+  <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Text category="h1">Wer bist du?</Text>
     <Button
-      title="Landwirt"
       onPress={() => navigation.navigate('Landwirt', { name: 'Jane' })}
-    />
+    >
+      Landwirt
+    </Button>
     <Button
       title="Helfer"
       onPress={() => navigation.navigate('Map', { name: 'lulz' })}
-    />
-  </View>
+    >
+      Helfer
+    </Button>
+  </Layout>
 );
 
 export default WelcomeScreen;

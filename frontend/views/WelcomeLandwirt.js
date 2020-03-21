@@ -9,7 +9,7 @@ class WelcomeLandwirt extends React.Component {
     super(props);
 
     this.state = {
-      start_date: '2016-05-15',
+      start_date: new Date.prototype.getDate(),
       end_date: '2016-05-15',
       name: 'Der Doedel',
       plz: 72766
