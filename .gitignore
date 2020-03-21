@@ -176,3 +176,7 @@ buck-out/
 
 */ios/pods
 frontend/package-lock.json
+
+frontend/.expo/settings.json
+
+frontend/.expo/packager-info.json
