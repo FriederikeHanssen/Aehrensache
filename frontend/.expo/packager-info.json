@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19003,
-  "packagerPid": 85759,
-  "expoServerNgrokUrl": "https://i9-cbq.hyde46.frontend.exp.direct",
-  "packagerNgrokUrl": "https://packager.i9-cbq.hyde46.frontend.exp.direct",
-  "ngrokPid": 85779
+  "packagerPort": 19001,
+  "packagerPid": 97320,
+  "expoServerNgrokUrl": "https://i9-cbq.anonymous.frontend.exp.direct",
+  "packagerNgrokUrl": "https://packager.i9-cbq.anonymous.frontend.exp.direct",
+  "ngrokPid": 97350
 }

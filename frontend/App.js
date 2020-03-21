@@ -1,34 +1,33 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import WelcomeScreen from './views/Welcome';
+import WelcomeLandwirt from './views/WelcomeLandwirt';
+import Map from './views/Map';
+
+const Stack = createStackNavigator();
 
 const App = () => (
-  <View style={styles.container}>
-    <MapView style={styles.mapStyle} />
-  </View>
+  <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{ title: 'Welcome' }}
+      />
+      <Stack.Screen
+        name="Landwirt"
+        component={WelcomeLandwirt}
+        options={{ title: 'Welcome' }}
+      />
+      <Stack.Screen
+        name="Map"
+        component={Map}
+        options={{ title: 'Welcome' }}
+      />
+    </Stack.Navigator>
+  </NavigationContainer>
 );
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  mapStyle: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-});

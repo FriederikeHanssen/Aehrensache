@@ -175,3 +175,4 @@ buck-out/
 *.jsbundle
 
 */ios/pods
+frontend/package-lock.json
