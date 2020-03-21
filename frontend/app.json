@@ -12,6 +12,10 @@
       "ios",
       "android",
       "web"
-    ]
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#65734B"
+    }
   }
 }
