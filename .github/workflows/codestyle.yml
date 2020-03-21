@@ -5,6 +5,8 @@ jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
