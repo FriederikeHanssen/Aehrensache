@@ -24,7 +24,7 @@ const App = () => (
       <Stack.Screen
         name="Map"
         component={Map}
-        options={{ title: 'Welcome' }}
+        options={{ title: 'Erntehilfe' }}
       />
     </Stack.Navigator>
   </NavigationContainer>
