@@ -1,26 +1,32 @@
 import React from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { StyleSheet, View, Dimensions } from 'react-native';
+import mapStyle from "../constants/maps_styling";
+import Geolocation from "react-native-geolocation-service";
 
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 48.5216,
+        longitude: 9.0576,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
       markers: [
         {
+          key: 0,
           latlng:
-            [37.7882
-              - 122.4324],
-          title: 'Testmarker',
-          description: 'dude'
+            [48.518061,
+              9.0526],
+          title: "Tübingen",
+          description: 'Warum bist du so hügelgig'
         }
-      ]
+      ],
+      latitude: 0,
+      longitude: 0,
+      coordinates: [],
     };
   }
 
@@ -28,30 +34,26 @@ export default class Map extends React.Component {
     this.setState({ region });
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <MapView
+        customMapStyle={mapStyle}
+        provider={PROVIDER_GOOGLE}
+        style={{ flex: 1 }}
+        initialRegion={this.state.region}>
+        {this.state.markers.map((marker) => (
+          <Marker
+            coordinate={{ latitude: marker.latlng[0], longitude: marker.latlng[1] }}
+            title={marker.title}
+            description={marker.description}
+          />
+        ))}
+      </MapView>
 
-        <MapView
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          region={this.state.region}
-        >
-          {this.state.markers.map((marker) => (
-            <Marker
-              coordinate={{ latitude: 37, longitude: -122 }}
-              title={marker.title}
-              description={marker.description}
-            />
-          ))}
-        </MapView>
-      </View>
     );
   }
 }
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
   },
   map: {
     position: 'absolute',
-    top: -10,
+    top: 0,
     left: 0,
     right: 0,
     bottom: 0,
