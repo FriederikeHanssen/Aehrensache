@@ -1,19 +1,15 @@
 import React from 'react';
-import {
-  RangeCalendar, Layout, Input, Button
-} from '@ui-kitten/components';
+import { Layout, Input, Button, Datepicker } from '@ui-kitten/components';
 
 class WelcomeLandwirt extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      range: {
-        startDate: null,
-        endDate: null,
-      },
-      name: 'Der Doedel',
-      plz: 72766
+      start_date: new Date(),
+      end_date: null,
+      name: null,
+      plz: null
     };
   }
 
@@ -21,27 +17,25 @@ class WelcomeLandwirt extends React.Component {
     console.log(this.state);
   }
 
-  render() {
-    return (
-      <Layout>
-        <RangeCalendar
-          range={this.state.range}
-          onSelect={(range) => this.setState(range)}
-        />
-        <Input
-          placeholder="Place your Text"
-          value={this.state.name}
-          onChangeText={(name) => this.setState({ name })}
-        />
-        <Input
-          placeholder="Place your Text"
-          value={this.state.name}
-          onChangeText={(plz) => this.setState({ plz })}
-        />
-        <Button onPress={() => this.onHandleSubmit()} title="Submit" />
-      </Layout>
-    );
-  }
+  render = () => (
+    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Datepicker
+        date={this.state.start_date}
+        onSelect={(date) => this.setState({ start_date: date })}
+      />
+      <Input
+        onChangeText={(name) => this.setState({ name })}
+        value={this.state.name}
+        placeholder="Name"
+      />
+      <Input
+        onChangeText={(plz) => this.setState({ plz })}
+        value={this.state.plz}
+        placeholder="Plz"
+      />
+      <Button onPress={() => this.onHandleSubmit()}>Einreichen</Button>
+    </Layout>
+  )
 }
 
 export default WelcomeLandwirt;
